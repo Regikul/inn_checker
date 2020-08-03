@@ -1,0 +1,11 @@
+.block {
+  display: block;
+}
+      
+.inline {
+  display: inline;
+}
+
+#inn-input {
+  width: 550px;
+}

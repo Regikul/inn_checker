@@ -1,0 +1,9 @@
+<div class="block">
+  <label class="block" for="inn-input">Введите ИНН:</label>
+  <input class="inline" id="inn-input" type="text">
+  <button class="inline" id="inn-submit" type="submit">Отправить</button>
+</div>
+<div id="inn-listing" class="column">
+  <div>12345: valid</div>
+  <div>aaaaa: invalid</div>
+</div>
