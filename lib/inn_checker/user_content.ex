@@ -17,8 +17,8 @@ defmodule InnChecker.UserContent do
       [%Inn{}, ...]
 
   """
-  def list_inns do
-    Repo.all(Inn)
+  def list_inns(since \\ -1) do
+    Repo.all(from i in Inn, order_by: [desc: i.updated_at], where: i.id > ^since)
   end
 
   @doc """

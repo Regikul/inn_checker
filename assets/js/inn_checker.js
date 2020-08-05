@@ -19,14 +19,18 @@ let InnChecker = {
 
                 this._channel.on("new_inn", resp => {
                         this._lastInnId = resp.id
-                        this.renderStatus(resp)
+                        let template = this.renderStatus(resp)
+                        this._innContainer.prepend(template)
                 })
 
                 this._channel.join()
                         .receive("ok", resp => {
                                 let ids = resp.inns.map(inn => inn.id)
                                 if (ids.length > 0) {this._lastInnId = Math.max(...ids)}
-                                resp.inns.forEach(inn => {this.renderStatus(inn)})
+                                resp.inns.forEach(inn => {
+                                        let template = this.renderStatus(inn)
+                                        this._innContainer.appendChild(template)
+                                })
                                 console.log("Joined successfully", resp)
                         })
                         .receive("error", resp => { console.log("Unable to join", resp) })
@@ -40,8 +44,8 @@ let InnChecker = {
 
         renderStatus(inn) {
                 let template = document.createElement("div")
-                template.innerHTML = `${this.esc(inn.inn)}: ${this.esc(inn.status)}`
-                this._innContainer.prepend(template)
+                template.innerHTML = `[${this.esc(inn.updated_at)}] ${this.esc(inn.inn)}: ${this.esc(inn.status)}`
+                return template
         }
 }
 
