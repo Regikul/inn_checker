@@ -9,3 +9,8 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+alias InnChecker.Administration
+
+for role <- ["operator", "admin"] do
+  Administration.create_role role
+end
