@@ -10,15 +10,17 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 
-defp locate_ip do
-  :inets.start()
-  case :httpc.request('http://169.254.169.254/latest/meta-data/local-ipv4') do
-    {:ok, {{_, 200, _}, _, ip}} -> List.to_string ip
+defmodule ConfigHelpers do
+  def locate_ip do
+    :inets.start()
+    case :httpc.request('http://169.254.169.254/latest/meta-data/local-ipv4') do
+      {:ok, {{_, 200, _}, _, ip}} -> List.to_string ip
+    end
   end
 end
 
 config :inn_checker, InnCheckerWeb.Endpoint,
-  url: [host: locate_ip(), port: 80],
+  url: [host: ConfigHelpers.locate_ip(), port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production

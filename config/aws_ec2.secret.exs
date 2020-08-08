@@ -4,16 +4,18 @@
 # remember to add this file to your .gitignore.
 use Mix.Config
 
-defp from_path(path) do
-  case File.read(path) do
-    {:ok, value} ->
-      value
-    _ -> nil
+defmodule ConfigHelpers do
+  def from_path(path) do
+    case File.read(path) do
+      {:ok, value} ->
+        value
+      _ -> nil
+    end
   end
 end
 
 database_url =
-  from_path("/etc/inn_checker/db_url") ||
+  ConfigHelpers.from_path("/etc/inn_checker/db_url") ||
     raise """
     environment variable DATABASE_URL is missing.
     For example: ecto://USER:PASS@HOST/DATABASE
@@ -25,7 +27,7 @@ config :inn_checker, InnChecker.Repo,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
 
 secret_key_base =
-  from_path("/etc/inn_checker/secret_key_base") ||
+  ConfigHelpers.from_path("/etc/inn_checker/secret_key_base") ||
     raise """
     environment variable SECRET_KEY_BASE is missing.
     You can generate one by calling: mix phx.gen.secret
