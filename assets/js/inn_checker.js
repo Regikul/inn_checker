@@ -13,9 +13,9 @@ let InnChecker = {
                         let payload = {
                                 inn: this._innInput.value
                         }
-                        this.setDangerAlert()
+                        this.dangerAlert()
                         this._channel.push("verify", payload)
-                                        .receive("error", (err) => this.setDangerAlert(err.reason))
+                                        .receive("error", (err) => this.dangerAlert(err.reason))
                         this._innInput.value = ""
                 })
 
@@ -44,7 +44,7 @@ let InnChecker = {
                 return div.innerHTML
         },
 
-        setDangerAlert(text) {
+        dangerAlert(text) {
                 let alert = document.getElementsByClassName("alert-danger")[0]
                 if (text) {
                         alert.innerText = this.esc(text)
