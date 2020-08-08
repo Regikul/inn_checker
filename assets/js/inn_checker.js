@@ -13,7 +13,9 @@ let InnChecker = {
                         let payload = {
                                 inn: this._innInput.value
                         }
+                        this.setDangerAlert()
                         this._channel.push("verify", payload)
+                                        .receive("error", (err) => this.setDangerAlert(err.reason))
                         this._innInput.value = ""
                 })
 
@@ -40,6 +42,15 @@ let InnChecker = {
                 let div = document.createElement("div")
                 div.appendChild(document.createTextNode(str))
                 return div.innerHTML
+        },
+
+        setDangerAlert(text) {
+                let alert = document.getElementsByClassName("alert-danger")[0]
+                if (text) {
+                        alert.innerText = this.esc(text)
+                } else {
+                        alert.innerText = ""
+                }
         },
 
         renderStatus(inn) {

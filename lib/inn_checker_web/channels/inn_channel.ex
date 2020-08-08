@@ -15,10 +15,15 @@ defmodule InnCheckerWeb.InnChannel do
     case UserContent.create_inn(%{value: inn}) do
       {:ok, %Inn{} = created} ->
         broadcast!(socket, "new_inn", schema_to_json(created))
-      {:error, %Changeset{} = err} -> IO.inspect(err, label: "err")
+        {:reply, :ok, socket}
+      {:error, %Changeset{} = changeset} ->
+        [{_, {reason, []}} | _] = changeset.errors
+        reply = %{
+          reason: reason
+        }
+        {:reply, {:error, reply}, socket}
     end
 
-    {:reply, :ok, socket}
   end
 
   def handle_in(_request, _payload, socket) do
