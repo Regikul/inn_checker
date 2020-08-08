@@ -13,7 +13,7 @@ use Mix.Config
 defmodule ConfigHelpers do
   def locate_ip do
     :inets.start()
-    case :httpc.request('http://169.254.169.254/latest/meta-data/local-ipv4') do
+    case :httpc.request('http://169.254.169.254/latest/meta-data/public-ipv4') do
       {:ok, {{_, 200, _}, _, ip}} -> List.to_string ip
     end
   end
