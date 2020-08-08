@@ -7,7 +7,9 @@ let InnChecker = {
                 this._innSubmit    = document.getElementById("inn-submit")
                 this._innContainer = document.getElementById("inn-listing")
                 this._lastInnId    = 0
-                this._channel      = socket.channel("channel:inn", {last_inn_id: this._lastInnId})
+                this._channel      = socket.channel("channel:inn", () => {
+                        return {last_inn_id: this._lastInnId}
+                })
 
                 this._innSubmit.addEventListener("click", (e) => {
                         let payload = {
