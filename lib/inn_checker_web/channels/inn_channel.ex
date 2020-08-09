@@ -12,7 +12,11 @@ defmodule InnCheckerWeb.InnChannel do
   end
 
   def handle_in("verify", %{"inn" => inn}, socket) do
-    case UserContent.create_inn(%{value: inn}) do
+    attrs = %{
+      value: inn,
+      source_ip: socket.assigns.source_ip
+    }
+    case UserContent.create_inn(attrs) do
       {:ok, %Inn{} = created} ->
         broadcast!(socket, "new_inn", schema_to_json(created))
         {:reply, :ok, socket}

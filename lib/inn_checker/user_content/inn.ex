@@ -7,6 +7,7 @@ defmodule InnChecker.UserContent.Inn do
   schema "inns" do
     field :value, :string, null: false
     field :valid, :boolean, default: false, null: false
+    field :source_ip, :string, null: false
 
     timestamps()
   end
@@ -14,7 +15,7 @@ defmodule InnChecker.UserContent.Inn do
   @doc false
   def changeset(inn, attrs) do
     inn
-    |> cast(attrs, [:value])
+    |> cast(attrs, [:value, :source_ip])
     |> validate_required([:value])
     # do we need this strictness?
     |> validate_inn_length(:value)

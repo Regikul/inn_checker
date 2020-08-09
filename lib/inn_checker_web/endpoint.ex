@@ -11,7 +11,7 @@ defmodule InnCheckerWeb.Endpoint do
   ]
 
   socket "/socket", InnCheckerWeb.UserSocket,
-    websocket: true,
+    websocket: [connect_info: [:peer_data]],
     longpoll: false
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
